@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StarController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -30,9 +31,19 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Stars
+    Route::get('/stars', [StarController::class, 'show'])->name('stars.show');
+    Route::get('/stars/{star}', [StarController::class, 'edit'])->name('stars.edit');
+    Route::patch('/stars/{star}', [StarController::class, 'update'])->name('stars.update');
+    Route::delete('/stars/{star}', [StarController::class, 'destroy'])->name('stars.destroy');
+
+    Route::get('/stars/new', [StarController::class, 'edit'])->name('stars.new');
+    Route::post('/stars/new', [StarController::class, 'create'])->name('stars.create');
 });
 
 require __DIR__.'/auth.php';
