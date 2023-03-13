@@ -5,6 +5,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, useForm } from '@inertiajs/vue3';
+import { computed } from 'vue';
 
 const props = defineProps({
     star: Object
@@ -16,6 +17,11 @@ const form = useForm({
     image: props.star ? props.star.image : null,
     description: props.star ? props.star.description : null
 });
+
+const isCreate = computed(() =>
+    props.star.id ? false : true
+);
+
 </script>
 
 <template>
@@ -23,7 +29,10 @@ const form = useForm({
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Star</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                <span v-if="isCreate">Create new Star</span>
+                <span v-else>Edit Star</span>
+            </h2>
         </template>
 
         <div class="py-12">
@@ -31,7 +40,10 @@ const form = useForm({
                 <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
 
                     <section>
-                        <form @submit.prevent="form.patch(route('star.update'))" class="mt-6 space-y-6">
+                        <form 
+                            @submit.prevent="isCreate ? form.post(route('stars.store')) : form.patch(route('stars.update', props.star))" 
+                            class="mt-6 space-y-6"
+                        >
                             <div>
                                 <InputLabel for="firstname" value="First name" />
 
@@ -41,7 +53,6 @@ const form = useForm({
                                     class="mt-1 block w-full"
                                     v-model="form.firstname"
                                     required
-                                    autofocus
                                     autocomplete="firstname"
                                 />
 

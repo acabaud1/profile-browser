@@ -38,12 +38,12 @@ Route::middleware('auth')->group(function () {
 
     // Stars
     Route::get('/stars', [StarController::class, 'show'])->name('stars.show');
+    Route::get('/stars/create', [StarController::class, 'edit'])->name('stars.create');
+    Route::post('/stars/create', [StarController::class, 'store'])->name('stars.store');
+
     Route::get('/stars/{star}', [StarController::class, 'edit'])->name('stars.edit');
     Route::patch('/stars/{star}', [StarController::class, 'update'])->name('stars.update');
     Route::delete('/stars/{star}', [StarController::class, 'destroy'])->name('stars.destroy');
-
-    Route::get('/stars/new', [StarController::class, 'edit'])->name('stars.new');
-    Route::post('/stars/new', [StarController::class, 'create'])->name('stars.create');
 });
 
 require __DIR__.'/auth.php';

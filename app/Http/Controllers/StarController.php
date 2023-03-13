@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Star;
+use App\Http\Requests\StarUpdateRequest;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -25,16 +27,32 @@ class StarController extends Controller
 
     public function create(Request $request): Response
     {
-
+        return Inertia::render('Star/Edit', [
+            'star' => null
+        ]);
     }
 
-    public function update(Request $request): Response
+    public function store(StarUpdateRequest $request): RedirectResponse
+    {
+        Star::create([
+            'firstname' => $request->firstname,
+            'lastname' => $request->lastname,
+            'image' => $request->image,
+            'description' => $request->description
+        ]);
+
+        return redirect()->route('stars.show');
+    }
+
+    public function update(StarUpdateRequest $request): RedirectResponse
     {
 
     }
 
-    public function destroy(Request $request): Response
+    public function destroy(Star $star): RedirectResponse
     {
-
+        $star->delete();
+        
+        return redirect()->route('stars.show');
     }
 }
