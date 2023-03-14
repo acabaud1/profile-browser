@@ -5,16 +5,17 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, useForm } from '@inertiajs/vue3';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 
 const props = defineProps({
-    star: Object
+    star: Object,
+    imageUrl: String
 });
 
 const form = useForm({
     firstname: props.star ? props.star.firstname : null,
     lastname: props.star ? props.star.lastname : null,
-    image: props.star ? props.star.image : null,
+    image: null,
     description: props.star ? props.star.description : null
 });
 
@@ -42,7 +43,7 @@ const isCreate = computed(() =>
                     <section>
                         <form 
                             @submit.prevent="isCreate ? form.post(route('stars.store')) : form.patch(route('stars.update', props.star))" 
-                            class="mt-6 space-y-6"
+                            class="space-y-6"
                         >
                             <div>
                                 <InputLabel for="firstname" value="First name" />
@@ -77,14 +78,10 @@ const isCreate = computed(() =>
                             <div>
                                 <InputLabel for="image" value="Image" />
 
-                                <TextInput
-                                    id="image"
-                                    type="text"
-                                    class="mt-1 block w-full"
-                                    v-model="form.image"
-                                    required
-                                    autocomplete="image"
-                                />
+                                <img v-if="!isCreate && imageUrl" :src="imageUrl" style="max-width: 150px;" />
+
+                                <input class="mt-1 block w-full" id="image" type="file" @input="form.image = $event.target.files[0]">
+                                <progress v-if="form.progress" :value="form.progress.percentage" max="100"></progress>
 
                                 <InputError class="mt-2" :message="form.errors.image" />
                             </div>

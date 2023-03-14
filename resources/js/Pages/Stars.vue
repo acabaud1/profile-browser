@@ -1,10 +1,11 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 
 const deleteForm = useForm({});
 const deleteStar = (id) => {
-    if(confirm("Are you sure to delete this star ?")) {
+    if(confirm("Are you sure you want to delete this star ?")) {
         deleteForm.delete(route('stars.destroy', id));
     }
 };
@@ -19,7 +20,18 @@ defineProps({
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Stars</h2>
+            <div class="flex items-center">
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">Stars</h2>
+
+                <Link :href="route('stars.create')" class="ml-auto">
+                    <PrimaryButton type="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-11.25a.75.75 0 00-1.5 0v2.5h-2.5a.75.75 0 000 1.5h2.5v2.5a.75.75 0 001.5 0v-2.5h2.5a.75.75 0 000-1.5h-2.5v-2.5z" clip-rule="evenodd" />
+                        </svg>
+                        <span class="pl-2">Create</span>
+                    </PrimaryButton>
+                </Link>
+            </div>
         </template>
 
         <div class="py-12">
