@@ -51,6 +51,11 @@ class StarController extends Controller
             'description' => $request->description
         ]);
 
+        request()->session()->flash('alert', [
+            'type' => 'success',
+            'message' => 'Star has been successfully created.',
+        ]);
+
         return redirect()->route('stars.show');
     }
 
@@ -69,6 +74,11 @@ class StarController extends Controller
 
         $star->save();
 
+        request()->session()->flash('alert', [
+            'type' => 'success',
+            'message' => 'Star has been successfully updated.',
+        ]);
+
         return redirect()->route('stars.show');
     }
 
@@ -76,6 +86,11 @@ class StarController extends Controller
     {
         Storage::disk('public')->delete($star->image);
         $star->delete();
+
+        request()->session()->flash('alert', [
+            'type' => 'success',
+            'message' => 'Star has been successfully deleted.',
+        ]);
         
         return redirect()->route('stars.show');
     }

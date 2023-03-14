@@ -19,7 +19,7 @@ class StarUpdateRequest extends FormRequest
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,jpg,png,gif,svg|max:5120', // 5 MB
-            'description' => 'required|string|max:2500'
+            'description' => 'nullable|string|max:2500'
         ];
     }
 }

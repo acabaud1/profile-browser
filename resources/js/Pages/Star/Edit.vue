@@ -50,7 +50,7 @@ const form = useForm({
                             class="space-y-6"
                         >
                             <div>
-                                <InputLabel for="firstname" value="First name" />
+                                <InputLabel for="firstname" value="First name *" />
 
                                 <TextInput
                                     id="firstname"
@@ -65,7 +65,7 @@ const form = useForm({
                             </div>
 
                             <div>
-                                <InputLabel for="lastname" value="Last name" />
+                                <InputLabel for="lastname" value="Last name *" />
 
                                 <TextInput
                                     id="lastname"
@@ -100,7 +100,6 @@ const form = useForm({
                                     type="text"
                                     class="mt-1 block w-full"
                                     v-model="form.description"
-                                    required
                                     autocomplete="description"
                                 />
 

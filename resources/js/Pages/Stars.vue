@@ -53,7 +53,11 @@ defineProps({
                                 <td class="border-b border-slate-100 p-4 pl-8 text-slate-500">{{ star.id }}</td>
                                 <td class="border-b border-slate-100 p-4 text-slate-500">{{ star.firstname }}</td>
                                 <td class="border-b border-slate-100 p-4 text-slate-500">{{ star.lastname }}</td>
-                                <td class="border-b border-slate-100 p-4 text-slate-500">{{ star.image_url }}</td>
+                                <td class="border-b border-slate-100 p-4 text-slate-500">
+                                    <div class="m-1 mr-2 w-10 h-10 relative flex justify-center items-center rounded-full bg-gray-500 text-xl text-white">
+                                        <img :src="star.image_url" class="rounded-full">
+                                    </div>
+                                </td>
                                 <td class="border-b border-slate-100 p-4 pr-8 text-slate-500">
 
                                     <Link :href="route('stars.edit', star.id)">
