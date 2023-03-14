@@ -1,5 +1,7 @@
 ## Profile Browser
 
+This application was built as part of the HelloCSE technical test.
+
 Profile Browser is a simple Laravel / Vue.js application that displays star profiles and include dashboard to manage them.
 
 It relies on Laravel Breeze which includes Inertia for Vue3 support, Tailwind for CSS and a simple authentication implementation.
@@ -58,3 +60,7 @@ This will create 5 new Star entries with random fake data.
 First, create a new account : http://127.0.0.1:8000/register
 
 Then you can access the dashboard at http://127.0.0.1:8000/dashboard and manage your profile and Stars.
+
+## Support
+
+For any support or installation help, please contact : adrien@cabaud.dev
