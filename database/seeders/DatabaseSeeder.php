@@ -17,6 +17,6 @@ class DatabaseSeeder extends Seeder
         /**
          * Create 5 fake stars to populate database
          */
-        Star::factory(5)->create();
+        Star::factory(1)->create();
     }
 }

@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
+use Faker\Factory as Faker;
 
 class StarController extends Controller
 {
@@ -22,8 +23,7 @@ class StarController extends Controller
     public function edit(Star $star): Response
     {
         return Inertia::render('Star/Edit', [
-            'star' => $star,
-            'imageUrl' => asset($star->image)
+            'star' => $star
         ]);
     }
 
@@ -35,8 +35,14 @@ class StarController extends Controller
     }
 
     public function store(StarUpdateRequest $request): RedirectResponse
-    {        
-        $imagePath = $request->image->store('stars');
+    {
+        if($request->image) {
+            $imagePath = $request->image->store('stars', 'public');
+        } else {
+            $faker = Faker::create();
+            $fakeImage = fake()->image(null, 350, 350, null, true);
+            $imagePath = Storage::disk('public')->putFile('stars', $fakeImage);
+        }
 
         Star::create([
             'firstname' => $request->firstname,
@@ -50,11 +56,15 @@ class StarController extends Controller
 
     public function update(StarUpdateRequest $request, Star $star): RedirectResponse
     {
+        $currentStarImage = $star->image;
+
         $star->fill($request->validated());
 
         if($request->has('image') && $request->image) {
-            Storage::delete($star->image);
-            $star->image = $request->image->store('stars');
+            Storage::disk('public')->delete($star->image);
+            $star->image = $request->image->store('stars', 'public');
+        } else {
+            $star->image = $currentStarImage;
         }
 
         $star->save();
@@ -64,7 +74,7 @@ class StarController extends Controller
 
     public function destroy(Star $star): RedirectResponse
     {
-        Storage::delete($star->image);
+        Storage::disk('public')->delete($star->image);
         $star->delete();
         
         return redirect()->route('stars.show');

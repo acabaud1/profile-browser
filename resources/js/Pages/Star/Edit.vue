@@ -5,12 +5,15 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, useForm } from '@inertiajs/vue3';
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 
 const props = defineProps({
-    star: Object,
-    imageUrl: String
+    star: Object
 });
+
+const isCreate = computed(() =>
+    props.star.id ? false : true
+);
 
 const form = useForm({
     firstname: props.star ? props.star.firstname : null,
@@ -18,10 +21,6 @@ const form = useForm({
     image: null,
     description: props.star ? props.star.description : null
 });
-
-const isCreate = computed(() =>
-    props.star.id ? false : true
-);
 
 </script>
 
@@ -42,7 +41,12 @@ const isCreate = computed(() =>
 
                     <section>
                         <form 
-                            @submit.prevent="isCreate ? form.post(route('stars.store')) : form.patch(route('stars.update', props.star))" 
+                            @submit.prevent="isCreate ? 
+                                form.post(route('stars.store')) : 
+                                form.transform((data) => ({
+                                    ...data,
+                                    _method: 'patch'
+                                })).post(route('stars.update', props.star))" 
                             class="space-y-6"
                         >
                             <div>
@@ -78,7 +82,9 @@ const isCreate = computed(() =>
                             <div>
                                 <InputLabel for="image" value="Image" />
 
-                                <img v-if="!isCreate && imageUrl" :src="imageUrl" style="max-width: 150px;" />
+                                <a v-if="!isCreate && star.image_url" :href="star.image_url" target="_blank">
+                                    <img :src="star.image_url" style="max-width: 150px;" />
+                                </a>
 
                                 <input class="mt-1 block w-full" id="image" type="file" @input="form.image = $event.target.files[0]">
                                 <progress v-if="form.progress" :value="form.progress.percentage" max="100"></progress>
